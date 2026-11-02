@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Where tradition meets evidence</h1>
+  <p class="lede">PhytoBridge takes a medicinal plant's recorded traditional uses and lays them beside the phytochemical constituents recorded for that plant, so you can see, use by use, what evidence stands behind the claim and where to verify it.</p>
+  <form class="searchbar" action="/search" method="get">
+    <input type="search" name="q" placeholder="Search a plant (turmeric, ashwagandha) or a use (cough, wounds)" aria-label="Search">
+    <button type="submit">Search</button>
+  </form>
+  <div class="stats">
+    <div><strong>{{ stats.plants }}</strong><span>plants</span></div>
+    <div><strong>{{ stats.uses }}</strong><span>traditional use records</span></div>
+    <div><strong>{{ stats.plant_chems }}</strong><span>plant&ndash;chemical links</span></div>
+    <div><strong>{{ stats.chem_acts }}</strong><span>chemical activity records</span></div>
+  </div>
+</section>
+<section>
+  <h2>Most documented plants</h2>
+  <div class="cards">
+  {% for p in featured %}
+    <a class="card" href="/plant/{{ p.fnfnum }}">
+      <span class="card-name">{{ p.taxon }}</span>
+      <span class="card-sub">{{ p.family or "Family not recorded" }}</span>
+      <span class="card-meta">{{ p.uses }} traditional use records</span>
+    </a>
+  {% endfor %}
+  </div>
+</section>
+<section class="how">
+  <h2>How the bridge works</h2>
+  <ol>
+    <li><strong>Traditional layer.</strong> Every recorded ethnobotanical use of the plant, with the country of record and the source citation where the database provides one.</li>
+    <li><strong>Science layer.</strong> The phytochemical constituents recorded for the plant, and the biological activities recorded for each constituent.</li>
+    <li><strong>Bridge.</strong> Each traditional use is matched against those constituent activities. Matches are labelled <em>direct</em> or <em>related</em>, never counted as proof of efficacy.</li>
+    <li><strong>Verify.</strong> Every claim carries a PubMed link-out so you can read the underlying literature yourself.</li>
+  </ol>
+</section>
+{% endblock %}

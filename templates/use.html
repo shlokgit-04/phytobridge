@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Use: {{ use }} - PhytoBridge{% endblock %}
+{% block content %}
+<h1>Traditional use: “{{ use }}”</h1>
+<p>{{ plants|length }} plant{{ 's' if plants|length != 1 }} with this recorded use.</p>
+<div class="cards">
+  {% for p in plants %}
+  <a class="card" href="/plant/{{ p.fnfnum }}">
+    <span class="card-name">{{ p.taxon }}</span>
+    <span class="card-sub">{{ p.family or "" }}</span>
+    <span class="card-meta">{{ p.uses }} use records</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

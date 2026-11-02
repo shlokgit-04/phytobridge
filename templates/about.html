@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Methodology - PhytoBridge{% endblock %}
+{% block content %}
+<h1>Methodology &amp; limitations</h1>
+<h2>Data sources</h2>
+<ul>
+  <li>Dr. Duke's Phytochemical and Ethnobotanical Databases (USDA Agricultural Research Service, public domain), distributed as open data on Ag Data Commons and Zenodo. Tables used: FNFTAX (taxonomy), FARMACY_NEW (plant&ndash;chemical links), COMMON_NAMES, ETHNOBOT (traditional uses with country and reference), AGGREGAC (chemical&ndash;activity records with dosage and reference), ACTIVITIES (bioactivity vocabulary), REFERENCES (full citations).</li>
+</ul>
+<h2>How matching works</h2>
+<p>Each traditional use is compared with the recorded bioactivities of the plant's constituents. A <em>direct</em> match shares a normalised term with the use (for example <span class="chip direct">ANTIDIABETIC</span> against the use <span class="chip direct">diabetes</span>); a <em>related</em> match shares a word stem (for example <span class="chip related">ANALGESIC</span> against <span class="chip related">analgesia</span>). Matches are generated mechanically and are labelled as leads.</p>
+<h2>What this tool does not do</h2>
+<ul>
+  <li>It does not assert that any plant or constituent treats, cures, or prevents any condition.</li>
+  <li>It does not measure dose, safety, or efficacy; recorded dosages in the source database are shown where present, but the app makes no recommendations.</li>
+  <li>Absence of a match means absence in this dataset, not scientific disproof.</li>
+  <li>It is not a substitute for professional medical advice.</li>
+</ul>
+<h2>Reproducibility</h2>
+<p>The full build pipeline is in <code>pipeline/</code> in the repository: it downloads the source tables and reconstructs the SQLite database this app serves, so every number on every page can be regenerated and audited.</p>
+{% endblock %}

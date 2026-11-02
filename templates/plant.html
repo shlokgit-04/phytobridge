@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ p.taxon }} - PhytoBridge{% endblock %}
+{% block content %}
+<p class="crumbs"><a href="/">Home</a> / {{ p.taxon }}</p>
+<h1>{{ p.taxon }}</h1>
+<p class="taxonomy">{{ p.family or "Family not recorded" }}{% if common %} &middot; also known as {{ common|join(', ') }}{% endif %}</p>
+<p class="publink"><a href="{{ pubmed(p.genus, p.species, 'ethnobotany') }}" target="_blank" rel="noopener">Search PubMed for {{ p.taxon }} &nearr;</a></p>
+
+<section>
+  <h2>The bridge: traditional use vs recorded evidence</h2>
+  <p class="muted">For each recorded traditional use, this shows which constituents of the plant carry a matching recorded bioactivity. Strong = 3 or more supporting constituents; Moderate = 1 to 2; None recorded = no matching constituent activity in the data. A match is a lead, not proof: check the sources.</p>
+  {% for b in bridge %}
+  <article class="bridge tier-{{ b.tier }}">
+    <header>
+      <span class="tier">{{ {'strong':'Strong','moderate':'Moderate','none':'None recorded'}[b.tier] }}</span>
+      <h3>{{ b.use.use }}</h3>
+    </header>
+    <p class="meta">
+      {% if b.use.country %}Recorded in {{ b.use.country }}. {% endif %}
+      {% if b.use.longref %}Source: {{ b.use.longref }}.{% elif b.use.ref %}Source ref: {{ b.use.ref }}.{% endif %}
+      <a href="{{ pubmed(p.genus, p.species, b.use.use) }}" target="_blank" rel="noopener">PubMed &nearr;</a>
+    </p>
+    {% if b.matches %}
+    <ul class="supports">
+      {% for chem, supports in b.matches.items() %}
+      <li><strong>{{ chem }}</strong> &rarr; {% for s in supports %}<span class="chip {{ 'direct' if s == 'direct' else 'related' }}">{{ s }}</span> {% endfor %}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No constituent of this plant has a recorded bioactivity matching this use in the dataset. Absence of a match is absence in this data, not a disproof.</p>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+<section>
+  <h2>Recorded constituents ({{ chems|length }})</h2>
+  {% if chems %}
+  <ul class="chemlist">
+    {% for c in chems %}<li>{{ c }}</li>{% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No constituent records for this plant in the dataset.</p>
+  {% endif %}
+</section>
+{% endblock %}

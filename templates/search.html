@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Search: {{ q }} - PhytoBridge{% endblock %}
+{% block content %}
+<h1>Search{% if q %}: “{{ q }}”{% endif %}</h1>
+<form class="searchbar" action="/search" method="get">
+  <input type="search" name="q" value="{{ q }}" aria-label="Search">
+  <button type="submit">Search</button>
+</form>
+{% if results %}
+<p>{{ results|length }} plant{{ 's' if results|length != 1 }}</p>
+<div class="cards">
+  {% for r in results %}
+  <a class="card" href="/plant/{{ r.fnfnum }}">
+    <span class="card-name">{{ r.taxon }}</span>
+    <span class="card-sub">{{ r.family or "" }}</span>
+    {% if r.common %}<span class="card-meta">also: {{ r.common.split(',')[:3]|join(', ') }}</span>{% endif %}
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p>No plants matched. Try a scientific name, a common name, or a single word.</p>
+{% endif %}
+{% endblock %}
