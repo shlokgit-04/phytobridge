@@ -4,3 +4,4 @@ data/raw/
 flask.log
 out.html
 .venv/
+data/users.db

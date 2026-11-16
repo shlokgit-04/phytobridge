@@ -5,6 +5,11 @@
 <h1>{{ p.taxon }}</h1>
 <p class="taxonomy">{{ p.family or "Family not recorded" }}{% if common %} &middot; also known as {{ common|join(', ') }}{% endif %}</p>
 <p class="publink"><a href="{{ pubmed(p.genus, p.species, 'ethnobotany') }}" target="_blank" rel="noopener">Search PubMed for {{ p.taxon }} &nearr;</a></p>
+<p class="saverow plant-save" data-fnf="{{ p.fnfnum }}">
+  <button id="savebtn">Save plant</button>
+  <span id="savemsg" class="muted"></span>
+</p>
+<script src="{{ url_for('static', filename='plant_save.js') }}"></script>
 
 <section>
   <h2>The bridge: traditional use vs recorded evidence</h2>

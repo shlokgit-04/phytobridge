@@ -48,3 +48,25 @@ h2{font-size:1.35rem;margin-top:1.8em;border-bottom:2px solid var(--line);paddin
 .how li{margin:.6em 0}
 .site-footer{padding:22px 6vw 40px;background:var(--moss);color:#e9f2ec;font-size:.85rem;line-height:1.5}
 .site-footer p{max-width:60em;margin:0}
+
+/* ---- accounts, saved plants, privacy ---- */
+.authcard{max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;margin:30px auto}
+.authcard h1{margin-top:0}
+.authcard form{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.authcard label{display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.authcard input{padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-size:1rem;font-family:inherit;background:#fff}
+.authcard button{padding:12px;border:0;border-radius:8px;background:var(--moss);color:#fff;font-size:1rem;cursor:pointer;font-family:inherit}
+.authcard button:hover{background:var(--moss-d)}
+.formmsg{min-height:1.2em;margin:0}
+.savedcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.savedcard h3{margin:0 0 .2em}
+.notefield{width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;padding:10px;font-family:inherit;font-size:.95rem;background:#fff;margin-top:10px}
+.saverow{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.saverow button{padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-family:inherit;font-size:.9rem}
+.saverow button:hover{background:var(--sand)}
+.whoami{color:#dfe8e2;font-size:.9rem}
+.credit{margin-top:14px;font-size:.85rem}
+.credit a{color:inherit}
+.plant-save{margin:.4em 0 1.4em}
+.plant-save button{padding:9px 16px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-family:inherit}
+.plant-save button:hover{background:var(--sand)}

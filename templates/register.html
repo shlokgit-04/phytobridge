@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Create account - PhytoBridge{% endblock %}
+{% block content %}
+<div class="authcard">
+  <h1>Create account</h1>
+  <p class="muted">One account keeps your saved plants and notes. Your email is never shared.</p>
+  <form id="authform" data-mode="register" autocomplete="on">
+    <label>Email <input type="email" name="email" required maxlength="254"></label>
+    <label>Password <input type="password" name="password" required minlength="8" pattern=".{8,}"></label>
+    <button type="submit">Create account</button>
+    <p id="msg" class="formmsg" role="status"></p>
+    <p class="muted">Already have one? <a href="/login">Sign in</a>.</p>
+  </form>
+</div>
+<script src="{{ url_for('static', filename='auth.js') }}"></script>
+{% endblock %}

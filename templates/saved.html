@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}My saved plants - PhytoBridge{% endblock %}
+{% block content %}
+<h1>My saved plants</h1>
+<p class="muted" id="signin-hint"><a href="/login">Sign in</a> to see plants you have saved.</p>
+<div id="savedlist" class="cards" hidden></div>
+<p id="savedmsg" class="muted" hidden></p>
+<script src="{{ url_for('static', filename='saved.js') }}"></script>
+{% endblock %}

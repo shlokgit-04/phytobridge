@@ -12,6 +12,9 @@
   <nav>
     <a href="/">Home</a>
     <a href="/about">Methodology</a>
+    <a href="/saved">My saved</a>
+    <a href="/privacy">Privacy</a>
+    <span id="acct"><a href="/login">Sign in</a></span>
   </nav>
 </header>
 <main>
@@ -19,6 +22,8 @@
 </main>
 <footer class="site-footer">
   <p><strong>Research prototype.</strong> PhytoBridge maps recorded traditional uses to recorded phytochemical evidence. It does not provide medical advice, and nothing here should be treated as an established medical fact. Data: Dr. Duke's Phytochemical and Ethnobotanical Databases (USDA ARS, public domain).</p>
+  <p class="credit">Made by <a href="https://shlok.is-a.dev">Shlok V.</a></p>
 </footer>
+<script src="{{ url_for('static', filename='acct.js') }}"></script>
 </body>
 </html>

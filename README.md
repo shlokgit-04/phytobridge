@@ -19,6 +19,14 @@ what recorded evidence stands behind the claim and where to verify it.
   are never presented as proof of efficacy.
 - **Verify**: every claim carries a PubMed link-out.
 
+## Accounts
+
+Create a free account to save plants and keep your own notes beside the evidence.
+Sign-in lives on its own pages (/login, /register), passwords are stored as salted
+pbkdf2 hashes, and session tokens are signed and expire after 30 days. Your saved
+plants and notes are per-user and never shared. You can export or delete your whole
+account data at any time; see the [privacy policy](https://phytobridge.onrender.com/privacy).
+
 ## Data
 
 All data comes from **Dr. Duke's Phytochemical and Ethnobotanical Databases**
