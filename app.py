@@ -200,7 +200,6 @@ def about():
 # Accounts, sessions and per-user saved plants
 # --------------------------------------------------------------------------
 from flask import Request  # noqa: E402
-from pydantic import BaseModel  # noqa: E402
 
 
 def _client_ip() -> str:
@@ -217,31 +216,29 @@ def require(req: Request):
     return user
 
 
-class AuthPayload(BaseModel):
-    email: str
-    password: str
-
-
-class NotePayload(BaseModel):
-    note: str
-
-
-class SavePayload(BaseModel):
-    fnfnum: int
-    note: str = ""
+def _payload(required: str = ""):
+    """Parse a JSON body into a plain dict with the required string fields."""
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict):
+        body = {}
+    out = {}
+    for k in required.split():
+        v = body.get(k, "")
+        out[k] = v if isinstance(v, str) else ""
+    return out
 
 
 @app.post("/api/auth/register")
 def api_register():
     if rate_limited(_client_ip()):
         return jsonify(error="too many attempts, try again in a few minutes"), 429
-    body = AuthPayload(**(request.get_json(silent=True) or {}))
-    if not valid_email(body.email):
+    body = _payload("email password")
+    if not valid_email(body["email"]):
         return jsonify(error="enter a valid email address"), 400
-    if len(body.password) < 8:
+    if len(body["password"]) < 8:
         return jsonify(error="password must be at least 8 characters"), 400
     try:
-        uid = store.create_user(body.email, hash_password(body.password))
+        uid = store.create_user(body["email"], hash_password(body["password"]))
     except sqlite3.IntegrityError:
         return jsonify(error="an account with this email already exists"), 409
     user = store.user_by_id(uid)
@@ -252,9 +249,9 @@ def api_register():
 def api_login():
     if rate_limited(_client_ip()):
         return jsonify(error="too many attempts, try again in a few minutes"), 429
-    body = AuthPayload(**(request.get_json(silent=True) or {}))
-    user = store.user_by_email(body.email)
-    if user is None or not check_password(body.password, user["pw_hash"]):
+    body = _payload("email password")
+    user = store.user_by_email(body["email"])
+    if user is None or not check_password(body["password"], user["pw_hash"]):
         return jsonify(error="wrong email or password"), 401
     return jsonify(token=store.issue(user["id"], user["token_version"]), email=user["email"])
 
@@ -312,11 +309,14 @@ def api_saved_add():
         user = require(request)
     except PermissionError:
         return jsonify(error="not signed in"), 401
-    body = SavePayload(**(request.get_json(silent=True) or {}))
+    body = request.get_json(silent=True) or {}
+    fnfnum = body.get("fnfnum")
+    if not isinstance(fnfnum, int):
+        return jsonify(error="fnfnum must be a plant id"), 400
     db = get_db()
-    if db.execute("SELECT 1 FROM plants WHERE rowid = ?", (body.fnfnum,)).fetchone() is None:
+    if db.execute("SELECT 1 FROM plants WHERE rowid = ?", (fnfnum,)).fetchone() is None:
         return jsonify(error="unknown plant"), 404
-    created = store.saved_add(user["id"], body.fnfnum, body.note)
+    created = store.saved_add(user["id"], fnfnum, body.get("note") if isinstance(body.get("note"), str) else "")
     return jsonify(status="saved" if created else "already_saved")
 
 
@@ -337,10 +337,10 @@ def api_saved_note(fnfnum):
         user = require(request)
     except PermissionError:
         return jsonify(error="not signed in"), 401
-    body = NotePayload(**(request.get_json(silent=True) or {}))
-    if len(body.note) > 2000:
+    body = _payload("note")
+    if len(body["note"]) > 2000:
         return jsonify(error="note must be at most 2000 characters"), 400
-    if not store.saved_set_note(user["id"], fnfnum, body.note):
+    if not store.saved_set_note(user["id"], fnfnum, body["note"]):
         return jsonify(error="not saved"), 404
     return jsonify(status="noted")
 
